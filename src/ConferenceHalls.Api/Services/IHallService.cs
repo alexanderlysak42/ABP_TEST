@@ -5,4 +5,6 @@ namespace ConferenceHalls.Api.Services;
 public interface IHallService
 {
     Task<List<HallResponseDto>> GetAllAsync();
+    
+    Task<HallResponseDto> GetByIdAsync(int id);
 }

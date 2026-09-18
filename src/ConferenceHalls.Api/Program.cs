@@ -1,4 +1,5 @@
 using ConferenceHalls.Api.Data;
+using ConferenceHalls.Api.Middleware;
 using ConferenceHalls.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +11,14 @@ builder.Services.AddScoped<IHallService, HallService>();
 
 builder.Services.AddControllers();
 
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 using (var scope = app.Services.CreateScope())
 {

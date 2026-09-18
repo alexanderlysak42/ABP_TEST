@@ -21,4 +21,12 @@ public class HallsController : ControllerBase
     {
         return Ok(await _hallService.GetAllAsync());
     }
+    
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(HallResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<HallResponseDto>> GetByIdAsync(int id)
+    {
+        return Ok(await _hallService.GetByIdAsync(id));
+    }
 }
