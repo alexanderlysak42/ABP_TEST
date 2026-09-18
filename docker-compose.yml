@@ -29,8 +29,23 @@ services:
     environment:
       ConnectionStrings__Default: Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       ApiKeys__Key: ${API_KEY}
+      ASPNETCORE_ENVIRONMENT: Development
     ports:
       - "8080:8080"
+    networks:
+      - conference-halls
+
+  adminer:
+    image: adminer:latest
+    container_name: conference-halls-adminer
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "127.0.0.1:8081:8080"
     networks:
       - conference-halls
 
