@@ -19,7 +19,8 @@ public class ExceptionHandler : IExceptionHandler
         {
             NotFoundException => (StatusCodes.Status404NotFound, "Not found", exception.Message),
             ConflictException => (StatusCodes.Status409Conflict, "Conflict", exception.Message),
-            _ => (StatusCodes.Status500InternalServerError, "Server error", "An unexpected error occured")
+            BookingRuleException => (StatusCodes.Status400BadRequest, "Booking rule violation", exception.Message),
+            _ => (StatusCodes.Status500InternalServerError, "Server error", "An unexpected error occurred")
         };
 
         if (status == StatusCodes.Status500InternalServerError)

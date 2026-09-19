@@ -7,5 +7,6 @@ public class Hall
     public int Capacity { get; set; }
     public decimal BaseHourlyPrice { get; set; }
     public List<AdditionalService> AdditionalServices { get; set; } = [];
+    public List<Booking> Bookings { get; set; } = [];
 
 }

@@ -38,7 +38,7 @@ public class AdditionalServiceService : IAdditionalServiceService
 
         if (additionalService is null)
         {
-            throw new NotFoundException($"Additional service with id {id} not found in Hall {hallId}");
+            throw new NotFoundException($"Additional service with id {id} not found in hall {hallId}");
         }
         
         return AdditionalServiceResponseDto.FromEntity(additionalService);

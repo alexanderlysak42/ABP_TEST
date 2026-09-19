@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     public DbSet<Hall> Halls => Set<Hall>();
     
     public DbSet<AdditionalService> AdditionalServices => Set<AdditionalService>();
+    
+    public DbSet<Booking> Bookings => Set<Booking>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +33,23 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
             entity.HasIndex(s => new { s.HallId, s.Name }).IsUnique();
         });
+        
+        modelBuilder.Entity<Booking>(entity =>
+        {
+            entity.Property(b => b.StartTime).HasColumnType("timestamp without time zone");
+            entity.Property(b => b.EndTime).HasColumnType("timestamp without time zone");
+            entity.Property(b => b.HallCost).HasPrecision(18, 2);
+            entity.Property(b => b.ServicesCost).HasPrecision(18, 2);
+            entity.Property(b => b.TotalCost).HasPrecision(18, 2);
+            entity.HasOne(b => b.Hall)
+                .WithMany(h => h.Bookings)
+                .HasForeignKey(b => b.HallId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasMany(b => b.AdditionalServices)
+                .WithMany();
+            entity.HasIndex(b => new { b.HallId, b.StartTime, b.EndTime });
+        });
+
 
 
         modelBuilder.Entity<Hall>().HasData(

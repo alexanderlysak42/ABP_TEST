@@ -80,7 +80,12 @@ public class HallService : IHallService
         {
             throw new NotFoundException($"Hall with id {id} not found");
         }
-        
+
+        if (await _dbContext.Bookings.AnyAsync(b => b.HallId == id))
+        {
+            throw new ConflictException($"Hall with id {id} has bookings and cannot be deleted");
+        }
+
         _dbContext.Halls.Remove(hall);
         await _dbContext.SaveChangesAsync();
     }

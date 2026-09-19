@@ -9,6 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 
 builder.Services.AddScoped<IHallService, HallService>();
 builder.Services.AddScoped<IAdditionalServiceService, AdditionalServiceService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddControllers();
 
