@@ -18,6 +18,7 @@ public class ExceptionHandler : IExceptionHandler
         var (status, title, detail) = exception switch
         {
             NotFoundException => (StatusCodes.Status404NotFound, "Not found", exception.Message),
+            ConflictException => (StatusCodes.Status409Conflict, "Conflict", exception.Message),
             _ => (StatusCodes.Status500InternalServerError, "Server error", "An unexpected error occured")
         };
 
