@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Ограничения для залов: имя обязательное и уникальное
         modelBuilder.Entity<Hall>(entity =>
         {
             entity.Property(h => h.Name).IsRequired().HasMaxLength(100);
@@ -23,6 +24,7 @@ public class AppDbContext : DbContext
             entity.HasIndex(h => h.Name).IsUnique();
         });
 
+        // Услуги принадлежат залу; в одном зале имена услуг не повторяются
         modelBuilder.Entity<AdditionalService>(entity =>
         {
             entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
@@ -34,6 +36,7 @@ public class AppDbContext : DbContext
             entity.HasIndex(s => new { s.HallId, s.Name }).IsUnique();
         });
         
+        // Время брони хранится без часового пояса; зал с бронями удалить нельзя
         modelBuilder.Entity<Booking>(entity =>
         {
             entity.Property(b => b.StartTime).HasColumnType("timestamp without time zone");
@@ -52,6 +55,7 @@ public class AppDbContext : DbContext
 
 
 
+        // Начальные залы из ТЗ
         modelBuilder.Entity<Hall>().HasData(
             new Hall { Id = 1, Name = "Зал A", Capacity = 50, BaseHourlyPrice = 2000m },
             new Hall { Id = 2, Name = "Зал B", Capacity = 100, BaseHourlyPrice = 3500m },

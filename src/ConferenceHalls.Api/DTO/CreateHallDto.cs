@@ -13,4 +13,6 @@ public class CreateHallDto
     
     [Range(0.01, 1000000)]
     public decimal BaseHourlyPrice { get; set; }
+
+    public List<AdditionalServiceRequestDto> Services { get; set; } = [];
 }

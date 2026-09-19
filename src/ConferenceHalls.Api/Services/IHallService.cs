@@ -12,5 +12,7 @@ public interface IHallService
     
     Task<HallResponseDto> UpdateAsync(int id, UpdateHallDto updateHallDto);
     
+    Task<List<HallResponseDto>> SearchAvailableAsync(HallSearchRequestDto request);
+
     Task DeleteAsync(int id);
 }

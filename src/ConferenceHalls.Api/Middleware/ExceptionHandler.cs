@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConferenceHalls.Api.Middleware;
 
+// Превращает исключения в понятные ответы API с нужным кодом ошибки
 public class ExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<ExceptionHandler> _logger;
@@ -15,6 +16,7 @@ public class ExceptionHandler : IExceptionHandler
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+        // Подбираем код ответа по типу исключения
         var (status, title, detail) = exception switch
         {
             NotFoundException => (StatusCodes.Status404NotFound, "Not found", exception.Message),
@@ -23,6 +25,7 @@ public class ExceptionHandler : IExceptionHandler
             _ => (StatusCodes.Status500InternalServerError, "Server error", "An unexpected error occurred")
         };
 
+        // Неожиданные ошибки пишем в лог, а клиенту не показываем подробности
         if (status == StatusCodes.Status500InternalServerError)
         {
             _logger.LogError(exception, "Unhandled exception");

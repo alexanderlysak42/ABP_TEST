@@ -105,6 +105,7 @@ public class AdditionalServiceService : IAdditionalServiceService
 
     }
 
+    // Проверяет, что зал существует, иначе бросает 404
     private async Task HallExistsAsync(int hallId)
     {
         if (!await _dbContext.Halls.AnyAsync(h => h.Id == hallId))

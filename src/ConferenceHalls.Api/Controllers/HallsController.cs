@@ -30,9 +30,18 @@ public class HallsController : ControllerBase
         return Ok(await _hallService.GetByIdAsync(id));
     }
 
+    [HttpGet("available")]
+    [ProducesResponseType(typeof(List<HallResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<List<HallResponseDto>>> Search([FromQuery] HallSearchRequestDto request)
+    {
+        return Ok(await _hallService.SearchAvailableAsync(request));
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(HallResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<HallResponseDto>> Create(CreateHallDto createHallDto)
     {
         var hall = await _hallService.CreateAsync(createHallDto);
@@ -43,7 +52,7 @@ public class HallsController : ControllerBase
     [ProducesResponseType(typeof(HallResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<HallResponseDto>> Update(int id, UpdateHallDto updateHallDto)
     {
         return Ok(await _hallService.UpdateAsync(id, updateHallDto));

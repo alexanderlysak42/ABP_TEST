@@ -1,9 +1,11 @@
 namespace ConferenceHalls.Api.Services;
 
+// Считает стоимость аренды зала с учётом времени суток
 public static class PriceCalculator
 {
     public static decimal CalculateHallCost(decimal baseHourlyPrice, DateTime start, int durationHours)
     {
+        // Каждый час брони считаем отдельно, потому что у часов разные коэффициенты
         var total = 0m;
         for (var i = 0; i < durationHours; i++)
         {
@@ -14,6 +16,7 @@ public static class PriceCalculator
         return Math.Round(total, 2);
     }
 
+    // Возвращает коэффициент цены для часа: утро -10%, обед +15%, вечер -20%
     private static decimal GetMultiplier(int hour)
     {
         if (hour >= 6 && hour < 9)
