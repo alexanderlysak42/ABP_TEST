@@ -6,5 +6,6 @@ public class Hall
     public string Name { get; set; } = string.Empty;
     public int Capacity { get; set; }
     public decimal BaseHourlyPrice { get; set; }
+    public List<AdditionalService> AdditionalServices { get; set; } = [];
 
 }

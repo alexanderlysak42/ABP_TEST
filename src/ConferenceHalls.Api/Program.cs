@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IHallService, HallService>();
+builder.Services.AddScoped<IAdditionalServiceService, AdditionalServiceService>();
 
 builder.Services.AddControllers();
 
